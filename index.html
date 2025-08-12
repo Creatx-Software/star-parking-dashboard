@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Star Parking Ltd. - Park & Go Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <button class="hamburger-menu" id="hamburgerMenu">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="logo">Star Parking Ltd.</div>
+        </div>
+        <div class="nav-center">
+            <a href="#" class="nav-link active">Home</a>
+            <div class="nav-dropdown">
+                <a href="#" class="nav-link">Meet & Greet <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="#">Meet & Greet</a>
+                    <a href="#">Park & Ride</a>
+                    <a href="#">Reset Service</a>
+                </div>
+            </div>
+            <div class="nav-dropdown">
+                <a href="#" class="nav-link">Heathrow <i class="fas fa-chevron-down"></i></a>
+            </div>
+            <a href="#" class="nav-link">My Profile</a>
+            <a href="#" class="nav-link">Logout</a>
+        </div>
+        <div class="nav-right">
+            <div class="search-container">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search" class="search-input">
+            </div>
+            <button class="add-event-btn">Add Event</button>
+        </div>
+        <button class="close-btn" id="closeBtn">
+            <i class="fas fa-times"></i>
+        </button>
+    </nav>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3>Star Parking Ltd.</h3>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#" class="sidebar-link active">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="#" class="sidebar-link">
+                <i class="fas fa-calendar"></i>
+                <span>Events</span>
+            </a>
+            <a href="#" class="sidebar-link">
+                <i class="fas fa-user-clock"></i>
+                <span>Clocked in User</span>
+            </a>
+            <a href="#" class="sidebar-link">
+                <i class="fas fa-bell"></i>
+                <span>Alerts</span>
+            </a>
+            <a href="#" class="sidebar-link">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Dashboard Header -->
+        <div class="dashboard-header">
+            <h1>Welcome to the Park & Go</h1>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-icon booking-icon">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-label">Today Bookings</div>
+                    <div class="stat-number">05</div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-trending-up"></i>
+                        8.0% Up from yesterday
+                    </div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon staff-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-label">Clocked In Staff</div>
+                    <div class="stat-number">06</div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-trending-up"></i>
+                        1.3% Up from past week
+                    </div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon alert-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-label">Pending Alerts</div>
+                    <div class="stat-number">02</div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-trending-up"></i>
+                        1.9% Up from past week
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Grid -->
+        <div class="content-grid">
+            <!-- Calendar Section -->
+            <div class="calendar-section">
+                <div class="calendar-header">
+                    <div class="calendar-title">
+                        <i class="fas fa-calendar"></i>
+                        <span>Events</span>
+                    </div>
+                    <div class="calendar-nav">
+                        <span class="current-month">September 2025</span>
+                        <div class="view-options">
+                            <button class="view-btn active">Month</button>
+                            <button class="view-btn">Week</button>
+                            <button class="view-btn">Day</button>
+                            <button class="view-btn">List</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="calendar">
+                    <div class="calendar-weekdays">
+                        <div class="weekday">MON</div>
+                        <div class="weekday">TUE</div>
+                        <div class="weekday">WED</div>
+                        <div class="weekday">THU</div>
+                        <div class="weekday">FRI</div>
+                        <div class="weekday">SAT</div>
+                        <div class="weekday">SUN</div>
+                    </div>
+                    <div class="calendar-days" id="calendarDays">
+                        <!-- Calendar days will be generated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Sidebar -->
+            <div class="right-sidebar">
+                <!-- Clocked in Users -->
+                <div class="widget">
+                    <div class="widget-header">
+                        <i class="fas fa-user"></i>
+                        <span>Clocked in User</span>
+                    </div>
+                    <div class="user-count">
+                        <i class="fas fa-arrow-up"></i>
+                        <span class="count">4</span>
+                    </div>
+                    <div class="user-list">
+                        <div class="user-item">
+                            <span class="user-number">1.</span>
+                            <span class="user-name">Sarah Johnson</span>
+                            <span class="user-terminal">Terminal 1</span>
+                        </div>
+                        <div class="user-item">
+                            <span class="user-number">2.</span>
+                            <span class="user-name">Mark Roberts</span>
+                            <span class="user-terminal">Terminal 2</span>
+                        </div>
+                        <div class="user-item">
+                            <span class="user-number">3.</span>
+                            <span class="user-name">Emily Davis</span>
+                            <span class="user-terminal">Terminal 3</span>
+                        </div>
+                        <div class="user-item">
+                            <span class="user-number">4.</span>
+                            <span class="user-name">James Wilson</span>
+                            <span class="user-terminal">Terminal 4</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Alerts -->
+                <div class="widget">
+                    <div class="widget-header">
+                        <i class="fas fa-bell"></i>
+                        <span>Alerts</span>
+                        <div class="sort-dropdown">
+                            <span>Sort by</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    <div class="alert-list">
+                        <div class="alert-item">
+                            <div class="alert-dot"></div>
+                            <div class="alert-content">
+                                <div class="alert-text">New booking received</div>
+                                <div class="alert-date">Sep 11, 2025</div>
+                            </div>
+                        </div>
+                        <div class="alert-item">
+                            <div class="alert-dot"></div>
+                            <div class="alert-content">
+                                <div class="alert-text">Flight delay notification</div>
+                                <div class="alert-date">Sep 10, 2025</div>
+                            </div>
+                        </div>
+                        <div class="alert-item">
+                            <div class="alert-dot"></div>
+                            <div class="alert-content">
+                                <div class="alert-text">System update completed</div>
+                                <div class="alert-date">Sep 08, 2025</div>
+                            </div>
+                        </div>
+                        <div class="alert-item">
+                            <div class="alert-dot"></div>
+                            <div class="alert-content">
+                                <div class="alert-text">Staff shift change</div>
+                                <div class="alert-date">Sep 06, 2025</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Flight Traffic Map Section -->
+        <div class="map-section">
+            <div class="map-header">
+                <h2>Real-time Worldwide Flight Traffic</h2>
+                <button class="close-map-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="map-container">
+                <div class="map-overlay">
+                    <div class="map-info">
+                        <div class="map-title">Star Parking Ltd.</div>
+                        <div class="map-stats">
+                            <div>1000 km</div>
+                            <div>500 mi</div>
+                        </div>
+                    </div>
+                </div>
+                <div id="flightMap" class="flight-map">
+                    <!-- Map will be rendered here -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
