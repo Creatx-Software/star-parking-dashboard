@@ -3,23 +3,23 @@ let currentDate = new Date();
 let currentMonth = 8; // September (0-indexed)
 let currentYear = 2025;
 
-// Calendar events data
-const calendarEvents = {
-    '2025-09-01': [{ name: 'Tim David', type: 'tim-david' }],
-    '2025-09-08': [{ name: 'Alex Jay', type: 'alex-jay' }],
-    '2025-09-11': [{ name: 'James S', type: 'james-s' }],
-    '2025-09-17': [{ name: 'D Jhon', type: 'd-jhon' }],
-    '2025-09-21': [{ name: 'Vikey Beliard', type: 'vikey-beliard' }],
-    '2025-09-24': [
-        { name: 'Alex Jay', type: 'alex-jay' },
-        { name: 'Alex Jay', type: 'alex-jay' }
-    ]
-};
+
+// FullCalendar events data
+const fullCalendarEvents = [
+    { title: 'Tim David', start: '2025-09-30', color: '#4f46e5' },
+    { title: 'Alex Jay', start: '2025-09-08', color: '#4f46e5' },
+    { title: 'James S', start: '2025-09-11', color: '#4f46e5' },
+    { title: 'D.Jhon', start: '2025-09-17', color: '#4f46e5' },
+    { title: 'Vikey Ballard', start: '2025-09-21', color: '#4f46e5' },
+    { title: 'Alex Jay', start: '2025-09-24', color: '#4f46e5' },
+    { title: 'Alex Jay', start: '2025-09-24', color: '#4f46e5' }
+];
 
 // Initialize the application
+
 document.addEventListener('DOMContentLoaded', function() {
     initializeNavigation();
-    generateCalendar();
+    initializeFullCalendar();
     initializeStats();
     addEventListeners();
 });
@@ -62,69 +62,61 @@ function initializeNavigation() {
     });
 }
 
-// Calendar generation
-function generateCalendar() {
-    const calendarDays = document.getElementById('calendarDays');
-    const monthNames = [
-        'January', 'February', 'March', 'April', 'May', 'June',
-        'July', 'August', 'September', 'October', 'November', 'December'
-    ];
 
-    // Update month display
-    document.querySelector('.current-month').textContent = `${monthNames[currentMonth]} ${currentYear}`;
+// FullCalendar initialization
+function initializeFullCalendar() {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        headerToolbar: false,
+        events: fullCalendarEvents,
+        firstDay: 1, // Monday
+        height: 'auto',
+        fixedWeekCount: false,
+        displayEventTime: false,
+        eventDisplay: 'block',
+        dayMaxEvents: true,
+        datesSet: function(info) {
+            // Update custom month label
+            const monthNames = [
+                'January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 'November', 'December'
+            ];
+            document.getElementById('fcCurrentMonth').textContent = `${monthNames[info.start.getMonth()]} ${info.start.getFullYear()}`;
+        },
+        eventContent: function(arg) {
+            // Custom event rendering to match design
+            return {
+                html: `<div class="fc-event-custom">${arg.event.title}</div>`
+            };
+        }
+    });
+    calendar.render();
+    // Store instance for modal event addition
+    calendarEl._fullCalendarInstance = calendar;
 
-    // Clear previous calendar
-    calendarDays.innerHTML = '';
-
-    // Get first day of the month and number of days
-    const firstDay = new Date(currentYear, currentMonth, 1);
-    const lastDay = new Date(currentYear, currentMonth + 1, 0);
-    const daysInMonth = lastDay.getDate();
-    const startingDayOfWeek = firstDay.getDay();
-
-    // Add empty cells for days before the first day of the month
-    const startDay = startingDayOfWeek === 0 ? 6 : startingDayOfWeek - 1; // Adjust for Monday start
-    for (let i = 0; i < startDay; i++) {
-        const prevMonthDay = new Date(currentYear, currentMonth, -startDay + i + 1);
-        const dayElement = createDayElement(prevMonthDay.getDate(), true);
-        calendarDays.appendChild(dayElement);
-    }
-
-    // Add days of the current month
-    for (let day = 1; day <= daysInMonth; day++) {
-        const dateString = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-        const dayElement = createDayElement(day, false, calendarEvents[dateString]);
-        calendarDays.appendChild(dayElement);
-    }
-
-    // Fill remaining cells
-    const totalCells = calendarDays.children.length;
-    const remainingCells = 42 - totalCells; // 6 rows × 7 days
-    for (let i = 1; i <= remainingCells; i++) {
-        const dayElement = createDayElement(i, true);
-        calendarDays.appendChild(dayElement);
-    }
+    // Custom view buttons
+    document.getElementById('fcMonthBtn').onclick = function() {
+        calendar.changeView('dayGridMonth');
+        setActiveViewBtn(this);
+    };
+    document.getElementById('fcWeekBtn').onclick = function() {
+        calendar.changeView('timeGridWeek');
+        setActiveViewBtn(this);
+    };
+    document.getElementById('fcDayBtn').onclick = function() {
+        calendar.changeView('timeGridDay');
+        setActiveViewBtn(this);
+    };
+    document.getElementById('fcListBtn').onclick = function() {
+        calendar.changeView('listMonth');
+        setActiveViewBtn(this);
+    };
 }
 
-function createDayElement(day, otherMonth = false, events = null) {
-    const dayElement = document.createElement('div');
-    dayElement.className = `calendar-day ${otherMonth ? 'other-month' : ''} ${events ? 'has-event' : ''}`;
-    
-    const dayNumber = document.createElement('div');
-    dayNumber.className = 'day-number';
-    dayNumber.textContent = day;
-    dayElement.appendChild(dayNumber);
-
-    if (events && events.length > 0) {
-        events.forEach(event => {
-            const eventElement = document.createElement('div');
-            eventElement.className = `calendar-event ${event.type}`;
-            eventElement.textContent = event.name;
-            dayElement.appendChild(eventElement);
-        });
-    }
-
-    return dayElement;
+function setActiveViewBtn(activeBtn) {
+    document.querySelectorAll('.view-btn').forEach(btn => btn.classList.remove('active'));
+    activeBtn.classList.add('active');
 }
 
 // Statistics initialization with animation
@@ -225,9 +217,9 @@ function navigateCalendar(direction) {
     generateCalendar();
 }
 
-// Modal for adding events
+
+// Modal for adding events to FullCalendar
 function showAddEventModal() {
-    // Create modal overlay
     const modalOverlay = document.createElement('div');
     modalOverlay.style.cssText = `
         position: fixed;
@@ -242,7 +234,6 @@ function showAddEventModal() {
         z-index: 10000;
     `;
 
-    // Create modal content
     const modalContent = document.createElement('div');
     modalContent.style.cssText = `
         background: white;
@@ -274,7 +265,6 @@ function showAddEventModal() {
     modalOverlay.appendChild(modalContent);
     document.body.appendChild(modalOverlay);
 
-    // Event listeners for modal
     document.getElementById('cancelBtn').addEventListener('click', function() {
         document.body.removeChild(modalOverlay);
     });
@@ -289,21 +279,19 @@ function showAddEventModal() {
         e.preventDefault();
         const eventName = document.getElementById('eventName').value;
         const eventDate = document.getElementById('eventDate').value;
-        
-        // Add event to calendar
-        if (!calendarEvents[eventDate]) {
-            calendarEvents[eventDate] = [];
+        // Add event to FullCalendar
+        const calendarEl = document.getElementById('calendar');
+        const calendar = calendarEl._fullCalendarInstance;
+        if (calendar) {
+            calendar.addEvent({
+                title: eventName,
+                start: eventDate,
+                color: '#4f46e5'
+            });
         }
-        calendarEvents[eventDate].push({
-            name: eventName,
-            type: 'custom-event'
-        });
-        
-        generateCalendar();
         document.body.removeChild(modalOverlay);
     });
 
-    // Focus on the first input
     document.getElementById('eventName').focus();
 }
 
