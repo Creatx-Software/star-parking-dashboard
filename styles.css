@@ -1,12 +1,23 @@
+/* Increase FullCalendar day cell height */
+.fc-daygrid-day-frame {
+    min-height: 100px;
+    height: 100px;
+}
+/* FullCalendar weekday header background */
+.fc .fc-col-header-cell {
+    background: #f6f7f9 !important;
+    color: #848d9d;
+    padding: 7px 0px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
 /* FullCalendar Custom Styles */
 .fc .fc-toolbar {
     display: none;
 }
 
 #calendar {
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    background: #f7f8fe;
     padding: 0.5rem 0.5rem 1rem 0.5rem;
     margin-bottom: 0;
 }
@@ -16,9 +27,13 @@
 }
 
 .fc-daygrid-day-frame {
-    border-radius: 8px;
-    background: #fff;
+    border-radius: 0px;
+    background: white;
     transition: background 0.2s;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 10px;
 }
 .fc-daygrid-day-frame:hover {
     background: #f9fafb;
@@ -28,7 +43,7 @@
     font-weight: 500;
     color: #111827;
     margin-bottom: 0.25rem;
-    font-size: 1rem;
+    font-size: 1.5rem;
     padding: 0.25rem;
 }
 
