@@ -20,7 +20,6 @@ const calendarEvents = {
 document.addEventListener('DOMContentLoaded', function() {
     initializeNavigation();
     generateCalendar();
-    initializeFlightMap();
     initializeStats();
     addEventListeners();
 });
@@ -126,54 +125,6 @@ function createDayElement(day, otherMonth = false, events = null) {
     }
 
     return dayElement;
-}
-
-// Flight map initialization
-function initializeFlightMap() {
-    const flightMap = document.getElementById('flightMap');
-    
-    // Add flight icons
-    for (let i = 0; i < 8; i++) {
-        const flightIcon = document.createElement('div');
-        flightIcon.innerHTML = '✈️';
-        flightIcon.className = 'flight-icon';
-        flightMap.appendChild(flightIcon);
-    }
-
-    // Add location pins
-    for (let i = 0; i < 12; i++) {
-        const locationPin = document.createElement('div');
-        locationPin.innerHTML = '📍';
-        locationPin.className = 'location-pin';
-        flightMap.appendChild(locationPin);
-    }
-
-    // Add some city labels
-    const cities = [
-        { name: 'London', left: '60%', top: '40%' },
-        { name: 'Birmingham', left: '35%', top: '30%' },
-        { name: 'Oxford', left: '45%', top: '60%' },
-        { name: 'Reading', left: '50%', top: '70%' },
-        { name: 'Leicester', left: '45%', top: '25%' },
-        { name: 'Peterborough', left: '70%', top: '20%' },
-        { name: 'Norwich', left: '85%', top: '15%' },
-        { name: 'Ipswich', left: '90%', top: '45%' },
-        { name: 'Colchester', left: '85%', top: '60%' },
-        { name: 'Southend-on-Sea', left: '90%', top: '75%' }
-    ];
-
-    cities.forEach(city => {
-        const cityLabel = document.createElement('div');
-        cityLabel.textContent = city.name;
-        cityLabel.style.position = 'absolute';
-        cityLabel.style.left = city.left;
-        cityLabel.style.top = city.top;
-        cityLabel.style.color = '#e5e7eb';
-        cityLabel.style.fontSize = '0.75rem';
-        cityLabel.style.fontWeight = '500';
-        cityLabel.style.transform = 'translate(-50%, -50%)';
-        flightMap.appendChild(cityLabel);
-    });
 }
 
 // Statistics initialization with animation
