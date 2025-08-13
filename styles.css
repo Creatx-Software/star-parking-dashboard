@@ -1,3 +1,74 @@
+/* FullCalendar Custom Styles */
+.fc .fc-toolbar {
+    display: none;
+}
+
+#calendar {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    padding: 0.5rem 0.5rem 1rem 0.5rem;
+    margin-bottom: 0;
+}
+
+.fc-daygrid-day {
+    border: none;
+}
+
+.fc-daygrid-day-frame {
+    border-radius: 8px;
+    background: #fff;
+    transition: background 0.2s;
+}
+.fc-daygrid-day-frame:hover {
+    background: #f9fafb;
+}
+
+.fc-daygrid-day-number {
+    font-weight: 500;
+    color: #111827;
+    margin-bottom: 0.25rem;
+    font-size: 1rem;
+    padding: 0.25rem;
+}
+
+.fc-event-custom {
+    background: #4f46e5;
+    color: #fff;
+    border-radius: 6px;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-bottom: 0.2rem;
+    display: inline-block;
+    box-shadow: 0 2px 8px rgba(79,70,229,0.08);
+}
+
+.fc-daygrid-event-dot {
+    display: none;
+}
+
+.fc-daygrid-day.fc-day-today {
+    background: #eef2ff;
+    border-radius: 8px;
+}
+
+.fc .fc-list-event {
+    background: #f7f8fe;
+    border-radius: 8px;
+    color: #111827;
+    font-weight: 500;
+}
+
+.fc .fc-list-event-title {
+    color: #4f46e5;
+    font-weight: 600;
+}
+
+/* Hide FullCalendar default header */
+.fc-header-toolbar {
+    display: none !important;
+}
 /* Reset and base styles */
 * {
     margin: 0;
