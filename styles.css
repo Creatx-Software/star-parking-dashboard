@@ -137,11 +137,9 @@ body {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* Show hamburger menu on mobile */
-@media (max-width: 768px) {
-    .hamburger-menu {
-        display: block;
-    }
+/* Show hamburger menu on all devices */
+.hamburger-menu {
+    display: block;
 }
 
 .logo {
@@ -1429,23 +1427,30 @@ hr.calender-header-hr{
     border:1px solid#edeef5;
 }
 
-/* Hamburger menu display logic for tablet and mobile */
-@media (max-width: 1024px) {
-    .hamburger-menu {
-        display: block !important;
-    }
-}
-
 @media (min-width: 1025px) {
-    .hamburger-menu {
-        display: none !important;
-    }
     .sidebar {
-        left: 0;
-        position: static;
+        left: -220px;
+        position: fixed;
         width: 220px;
-        height: auto;
-        transition: none;
+        height: 100vh;
+        top: 0;
+        transition: left 0.3s ease;
+        z-index: 998;
+        padding: 70px 0 1.5rem 0;
+    }
+    
+    .sidebar.open {
+        left: 0;
+    }
+    
+    .main-content {
+        margin-left: 0;
+        margin-top: 70px;
+        transition: margin-left 0.3s ease;
+    }
+    
+    .main-content.sidebar-open {
+        margin-left: 220px;
     }
 }
 
