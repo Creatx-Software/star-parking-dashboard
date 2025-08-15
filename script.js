@@ -61,7 +61,7 @@ function initializeNavigation() {
         });
     }
 
-    // Close sidebar when clicking outside on mobile and tablet
+    // Close sidebar when clicking outside on mobile and tablet only
     document.addEventListener('click', function(event) {
         if (window.innerWidth <= 1024 && 
             !sidebar.contains(event.target) && 
@@ -98,7 +98,7 @@ function initializeNavigation() {
             sidebarLinks.forEach(l => l.classList.remove('active'));
             this.classList.add('active');
             
-            // Close sidebar on mobile and tablet after clicking a link
+            // Close sidebar on mobile and tablet after clicking a link (not on desktop)
             if (window.innerWidth <= 1024) {
                 sidebar.classList.remove('open');
                 mainContent.classList.remove('sidebar-open');
