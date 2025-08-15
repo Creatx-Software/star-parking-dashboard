@@ -276,15 +276,17 @@ body {
 /* Sidebar */
 .sidebar {
     position: fixed;
-    top: 70px;
-    left: -280px;
-    width: 280px;
-    height: calc(100vh - 70px);
+    top: 0;
+    left: -350px;
+    width: 350px;
+    height: 100vh;
     background: white;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 2px 0 15px rgba(0, 0, 0, 0.1);
     transition: left 0.3s ease;
-    z-index: 999;
-    padding: 1.5rem 0;
+    z-index: 1500;
+    padding: 0;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
 }
 
 .sidebar.open {
@@ -292,51 +294,89 @@ body {
 }
 
 .sidebar-header {
-    padding: 0 1.5rem 1.5rem;
+    padding: 2rem 2rem 1.5rem 2rem;
     border-bottom: 1px solid #e5e7eb;
+    margin-top: 0px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .sidebar-header h3 {
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     color: #374151;
     font-weight: 600;
+    margin: 0px;
+}
+
+.sidebar-close-btn {
+    background: none;
+    border: none;
+    color: #6b7280;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 6px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+}
+
+.sidebar-close-btn:hover {
+    background-color: #f3f4f6;
+    color: #374151;
 }
 
 .sidebar-nav {
-    padding: 1rem 0;
+    padding: 1.5rem 0;
 }
 
 .sidebar-link {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem 1.5rem;
+    gap: 1rem;
+    padding: 1rem 2rem;
     color: #6b7280;
     text-decoration: none;
     transition: all 0.2s;
-    font-size: 0.9rem;
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 0.25rem 1rem;
+    border-radius: 12px;
 }
 
 .sidebar-link:hover,
 .sidebar-link.active {
-    background: #f3f4f6;
+    background: #e8edff;
     color: #4f46e5;
 }
 
 .sidebar-link i {
-    width: 20px;
+    width: 22px;
     text-align: center;
+    font-size: 1.1rem;
+}
+
+@media (min-width: 1025px) {
+    .sidebar-header {
+        margin-top: 0px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar-header {
+        margin-top: 0px !important;
+    }
 }
 
 /* Main Content */
 .main-content {
     margin-top: 70px;
     padding: 2rem;
-    transition: margin-left 0.3s ease;
-}
-
-.main-content.sidebar-open {
-    margin-left: 280px;
+    /* Remove transition and sidebar-open margin to keep content fixed */
 }
 
 .dashboard-header {
@@ -865,10 +905,22 @@ body {
         display: none !important;
     }
     
+    .sidebar-close-btn {
+        display: none !important;
+    }
+    
     .sidebar {
-        top: 60px;
-        height: calc(100vh - 60px);
-        left: -280px;
+        top: 0;
+        height: 100vh;
+        left: -350px;
+        width: 350px;
+        border-top-right-radius: 20px;
+        border-bottom-right-radius: 20px;
+    }
+    
+    .sidebar-header {
+        margin-top: 60px;
+        padding: 2rem 2rem 1.5rem 2rem;
     }
     
     .sidebar.open {
@@ -934,9 +986,17 @@ body {
     }
     
     .sidebar {
-        top: 60px;
-        height: calc(100vh - 60px);
-        left: -280px;
+        top: 0;
+        height: 100vh;
+        left: -350px;
+        width: 350px;
+        border-top-right-radius: 20px;
+        border-bottom-right-radius: 20px;
+    }
+    
+    .sidebar-header {
+        margin-top: 60px;
+        padding: 2rem 2rem 1.5rem 2rem;
     }
     
     .sidebar.open {
@@ -1129,6 +1189,10 @@ body {
     }
     
     .close-btn {
+        display: none !important;
+    }
+    
+    .sidebar-close-btn {
         display: none !important;
     }
     
@@ -1429,28 +1493,31 @@ hr.calender-header-hr{
 
 @media (min-width: 1025px) {
     .sidebar {
-        left: -220px;
+        left: -350px;
         position: fixed;
-        width: 220px;
+        width: 350px;
         height: 100vh;
         top: 0;
         transition: left 0.3s ease;
-        z-index: 998;
-        padding: 70px 0 1.5rem 0;
+        z-index: 1500;
+        padding: 0;
+        border-top-right-radius: 20px;
+        border-bottom-right-radius: 20px;
     }
     
     .sidebar.open {
         left: 0;
     }
     
+    .sidebar-header {
+        margin-top: 70px;
+        padding: 2rem 2rem 1.5rem 2rem;
+    }
+    
     .main-content {
         margin-left: 0;
         margin-top: 70px;
-        transition: margin-left 0.3s ease;
-    }
-    
-    .main-content.sidebar-open {
-        margin-left: 220px;
+        /* Remove transition and sidebar-open margin to keep content fixed */
     }
 }
 
