@@ -635,11 +635,17 @@ body {
 .widget:has(.alert-list) .widget-header {
     justify-content: space-between;
     align-items: center;
+    flex-direction: row;
 }
 
 .widget:has(.alert-list) .widget-header > span {
     text-align: left;
-    flex: 1;
+    flex: none;
+    margin-left: 0;
+}
+
+.widget:has(.alert-list) .widget-header i {
+    margin-right: 0.5rem;
 }
 
 .sort-dropdown {
@@ -650,6 +656,8 @@ body {
     color: #6b7280;
     cursor: pointer;
     font-weight: 400;
+    margin-left: auto;
+    flex-shrink: 0;
 }
 
 .user-count {
@@ -1304,13 +1312,21 @@ body {
     
     /* Alerts widget header special handling for small screens */
     .widget:has(.alert-list) .widget-header {
-        flex-direction: column;
-        align-items: flex-start;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
         gap: 0.5rem;
     }
     
     .widget:has(.alert-list) .widget-header > span {
         text-align: left;
+        flex: none;
+    }
+    
+    /* Keep sort dropdown on the right for mobile */
+    .sort-dropdown {
+        font-size: 0.75rem;
+        margin-left: auto;
     }
     
     /* Stack widgets vertically for small mobile */
