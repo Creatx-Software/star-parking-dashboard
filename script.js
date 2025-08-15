@@ -35,7 +35,7 @@ function initializeNavigation() {
     hamburgerMenu.addEventListener('click', function(e) {
         e.stopPropagation();
         sidebar.classList.toggle('open');
-        mainContent.classList.toggle('sidebar-open');
+        // Remove main content class toggle since we want overlay behavior
         
         // Change hamburger icon to close icon when sidebar is open
         const icon = hamburgerMenu.querySelector('i');
@@ -52,7 +52,21 @@ function initializeNavigation() {
     if (closeBtn) {
         closeBtn.addEventListener('click', function() {
             sidebar.classList.remove('open');
-            mainContent.classList.remove('sidebar-open');
+            // Remove main content class toggle since we want overlay behavior
+            
+            // Reset hamburger icon
+            const icon = hamburgerMenu.querySelector('i');
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+        });
+    }
+
+    // Sidebar close button functionality
+    const sidebarCloseBtn = document.getElementById('sidebarCloseBtn');
+    if (sidebarCloseBtn) {
+        sidebarCloseBtn.addEventListener('click', function() {
+            sidebar.classList.remove('open');
+            // Remove main content class toggle since we want overlay behavior
             
             // Reset hamburger icon
             const icon = hamburgerMenu.querySelector('i');
@@ -68,7 +82,7 @@ function initializeNavigation() {
             !hamburgerMenu.contains(event.target) && 
             sidebar.classList.contains('open')) {
             sidebar.classList.remove('open');
-            mainContent.classList.remove('sidebar-open');
+            // Remove main content class toggle since we want overlay behavior
             
             // Reset hamburger icon
             const icon = hamburgerMenu.querySelector('i');
@@ -81,7 +95,7 @@ function initializeNavigation() {
     window.addEventListener('resize', function() {
         if (window.innerWidth > 1024) {
             sidebar.classList.remove('open');
-            mainContent.classList.remove('sidebar-open');
+            // Remove main content class toggle since we want overlay behavior
             
             // Reset hamburger icon
             const icon = hamburgerMenu.querySelector('i');
@@ -101,7 +115,7 @@ function initializeNavigation() {
             // Close sidebar on mobile and tablet after clicking a link (not on desktop)
             if (window.innerWidth <= 1024) {
                 sidebar.classList.remove('open');
-                mainContent.classList.remove('sidebar-open');
+                // Remove main content class toggle since we want overlay behavior
                 
                 // Reset hamburger icon
                 const icon = hamburgerMenu.querySelector('i');
@@ -389,11 +403,11 @@ window.addEventListener('resize', function() {
     // Close sidebar and reset on mobile/tablet/desktop transition
     if (window.innerWidth <= 1024) {
         sidebar.classList.remove('open');
-        mainContent.classList.remove('sidebar-open');
+        // Remove main content class toggle since we want overlay behavior
     } else {
         // On desktop, ensure sidebar positioning is correct
         sidebar.classList.remove('open');
-        mainContent.classList.remove('sidebar-open');
+        // Remove main content class toggle since we want overlay behavior
     }
     
     // Reset hamburger icon
