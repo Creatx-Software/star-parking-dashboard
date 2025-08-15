@@ -31,23 +31,62 @@ function initializeNavigation() {
     const mainContent = document.querySelector('.main-content');
     const closeBtn = document.getElementById('closeBtn');
 
-    hamburgerMenu.addEventListener('click', function() {
+    // Hamburger menu toggle
+    hamburgerMenu.addEventListener('click', function(e) {
+        e.stopPropagation();
         sidebar.classList.toggle('open');
         mainContent.classList.toggle('sidebar-open');
+        
+        // Change hamburger icon to close icon when sidebar is open
+        const icon = hamburgerMenu.querySelector('i');
+        if (sidebar.classList.contains('open')) {
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-times');
+        } else {
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+        }
     });
 
-    closeBtn.addEventListener('click', function() {
-        sidebar.classList.remove('open');
-        mainContent.classList.remove('sidebar-open');
-    });
+    // Close button functionality
+    if (closeBtn) {
+        closeBtn.addEventListener('click', function() {
+            sidebar.classList.remove('open');
+            mainContent.classList.remove('sidebar-open');
+            
+            // Reset hamburger icon
+            const icon = hamburgerMenu.querySelector('i');
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+        });
+    }
 
-    // Close sidebar when clicking outside
+    // Close sidebar when clicking outside on mobile and tablet
     document.addEventListener('click', function(event) {
-        if (!sidebar.contains(event.target) && 
+        if (window.innerWidth <= 1024 && 
+            !sidebar.contains(event.target) && 
             !hamburgerMenu.contains(event.target) && 
             sidebar.classList.contains('open')) {
             sidebar.classList.remove('open');
             mainContent.classList.remove('sidebar-open');
+            
+            // Reset hamburger icon
+            const icon = hamburgerMenu.querySelector('i');
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+        }
+    });
+
+    // Close sidebar when window is resized to desktop
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 1024) {
+            sidebar.classList.remove('open');
+            mainContent.classList.remove('sidebar-open');
+            
+            // Reset hamburger icon
+            const icon = hamburgerMenu.querySelector('i');
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
         }
     });
 
@@ -58,6 +97,17 @@ function initializeNavigation() {
             e.preventDefault();
             sidebarLinks.forEach(l => l.classList.remove('active'));
             this.classList.add('active');
+            
+            // Close sidebar on mobile and tablet after clicking a link
+            if (window.innerWidth <= 1024) {
+                sidebar.classList.remove('open');
+                mainContent.classList.remove('sidebar-open');
+                
+                // Reset hamburger icon
+                const icon = hamburgerMenu.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
         });
     });
 }
@@ -332,12 +382,27 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
 // Handle window resize
 window.addEventListener('resize', function() {
-    // Adjust layout if needed
-    if (window.innerWidth <= 768) {
-        const sidebar = document.getElementById('sidebar');
-        const mainContent = document.querySelector('.main-content');
+    const sidebar = document.getElementById('sidebar');
+    const mainContent = document.querySelector('.main-content');
+    const hamburgerMenu = document.getElementById('hamburgerMenu');
+    
+    // Close sidebar and reset on mobile/tablet/desktop transition
+    if (window.innerWidth <= 1024) {
         sidebar.classList.remove('open');
         mainContent.classList.remove('sidebar-open');
+    } else {
+        // On desktop, ensure sidebar positioning is correct
+        sidebar.classList.remove('open');
+        mainContent.classList.remove('sidebar-open');
+    }
+    
+    // Reset hamburger icon
+    if (hamburgerMenu) {
+        const icon = hamburgerMenu.querySelector('i');
+        if (icon) {
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+        }
     }
 });
 
