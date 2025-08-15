@@ -631,6 +631,23 @@ body {
     color: #6b7280;
 }
 
+/* Special styling for clocked in user widget header */
+.widget:has(.user-list) .widget-header {
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: row;
+}
+
+.widget:has(.user-list) .widget-header > span {
+    text-align: left;
+    flex: none;
+    margin-left: 0;
+}
+
+.widget:has(.user-list) .widget-header i {
+    margin-right: 0.5rem;
+}
+
 /* Special styling for alerts widget header */
 .widget:has(.alert-list) .widget-header {
     justify-content: space-between;
@@ -1033,6 +1050,24 @@ body {
         margin-bottom: 0.25rem;
     }
     
+    /* Override for clocked in user widget header on mobile */
+    .widget:has(.user-list) .widget-header {
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .widget:has(.user-list) .widget-header i {
+        margin-right: 0.5rem;
+        margin-bottom: 0;
+    }
+    
+    .widget:has(.user-list) .widget-header > span {
+        text-align: left;
+        flex: none;
+    }
+    
     /* Optimize user count display for mobile */
     .user-count {
         margin-bottom: 1rem;
@@ -1245,6 +1280,25 @@ body {
     
     .widget-header i {
         margin-right: 0.5rem;
+        font-size: 0.9rem;
+    }
+    
+    /* Override for clocked in user widget header on small mobile */
+    .widget:has(.user-list) .widget-header {
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 0.3rem;
+    }
+    
+    .widget:has(.user-list) .widget-header i {
+        margin-right: 0.3rem;
+        font-size: 0.85rem;
+    }
+    
+    .widget:has(.user-list) .widget-header > span {
+        text-align: left;
+        flex: none;
         font-size: 0.9rem;
     }
     
