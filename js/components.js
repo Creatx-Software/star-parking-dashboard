@@ -16,38 +16,38 @@ class ComponentManager {
         // Navbar component HTML
         this.loadedComponents.set('navbar', `
             <nav class="navbar">
-                <div class="nav-left">
-                    <button class="hamburger-menu" id="hamburgerMenu">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                    <div class="logo">Star Parking Ltd.</div>
-                </div>
-                <div class="nav-center">
-                    <a href="${this.getBasePath()}index.html" class="nav-link" data-page="home">Home</a>
-                    <div class="nav-dropdown">
-                        <a href="#" class="nav-link">Meet & Greet <i class="fas fa-chevron-down"></i></a>
-                        <div class="dropdown-content">
-                            <a href="#">Meet & Greet</a>
-                            <a href="#">Park & Ride</a>
-                            <a href="#">Reset Service</a>
-                        </div>
-                    </div>
-                    <div class="nav-dropdown">
-                        <a href="#" class="nav-link">Heathrow <i class="fas fa-chevron-down"></i></a>
-                    </div>
-                    <a href="${this.getBasePath()}pages/driver-profile.html" class="nav-link" data-page="driver-profile">My Profile</a>
-                    <a href="#" class="nav-link">Logout</a>
-                </div>
-                <div class="nav-right">
-                    <div class="search-container">
-                        <i class="fas fa-search"></i>
-                        <input type="text" placeholder="Search" class="search-input">
-                    </div>
-                    <button class="add-event-btn">Add Event</button>
-                </div>
-                <button class="close-btn" id="closeBtn">
-                    <i class="fas fa-times"></i>
-                </button>
+            <div class="nav-left">
+            <button class="hamburger-menu" id="hamburgerMenu">
+            <i class="fas fa-bars"></i>
+            </button>
+            <div class="logo" onclick="window.location.href='${this.getBasePath()}index.html'" style="cursor: pointer;">Star Parking Ltd.</div>
+            </div>
+            <div class="nav-center">
+            <a href="${this.getBasePath()}pages/home.html" class="nav-link" data-page="home">Home</a>
+            <div class="nav-dropdown">
+            <a href="#" class="nav-link">Meet & Greet <i class="fas fa-chevron-down"></i></a>
+            <div class="dropdown-content">
+            <a href="#">Meet & Greet</a>
+            <a href="#">Park & Ride</a>
+            <a href="#">Reset Service</a>
+            </div>
+            </div>
+            <div class="nav-dropdown">
+            <a href="#" class="nav-link">Heathrow <i class="fas fa-chevron-down"></i></a>
+            </div>
+            <a href="${this.getBasePath()}pages/driver-profile.html" class="nav-link" data-page="driver-profile">My Profile</a>
+            <a href="#" class="nav-link">Logout</a>
+            </div>
+            <div class="nav-right">
+            <div class="search-container">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search" class="search-input">
+            </div>
+            <button class="add-event-btn">Add Event</button>
+            </div>
+            <button class="close-btn" id="closeBtn">
+            <i class="fas fa-times"></i>
+            </button>
             </nav>
         `);
 

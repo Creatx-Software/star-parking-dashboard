@@ -225,7 +225,10 @@ function createTableRow(user) {
         <td>${user.username}</td>
         <td>${user.date}</td>
         <td>
-            <span class="time-display ${user.checkIn !== '-' ? 'has-time' : ''}">${user.checkIn}</span>
+            <div class="time-container">
+                <span class="time-display ${user.checkIn !== '-' ? 'has-time' : ''}">${user.checkIn}</span>
+                ${user.checkIn !== '-' ? '<img src="../assets/clock.png" alt="Clock" class="clock-icon">' : ''}
+            </div>
         </td>
         <td>
             <span class="time-display ${user.checkOut !== '-' ? 'has-time' : ''}">${user.checkOut}</span>
