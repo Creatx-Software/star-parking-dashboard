@@ -3,6 +3,161 @@ let currentDate = new Date();
 let currentMonth = 8; // September (0-indexed)
 let currentYear = 2025;
 
+// Sample data for the data table
+const userData = [
+    {
+        id: 1,
+        name: "Malinga Darshana",
+        username: "mali201",
+        date: "Mon 13 Sep",
+        checkIn: "09:34 AM",
+        checkOut: "-",
+        totalHours: "17.3 h",
+        status: "active",
+        role: "Admin",
+        amount: "£20.50",
+        hourlyRating: "£08.50",
+        avatar: "MD"
+    },
+    {
+        id: 2,
+        name: "Alex Jay",
+        username: "alex#21",
+        date: "Mon 13 Sep",
+        checkIn: "-",
+        checkOut: "-",
+        totalHours: "27.3 h",
+        status: "inactive",
+        role: "User",
+        amount: "£10.50",
+        hourlyRating: "£07.90",
+        avatar: "AJ"
+    },
+    {
+        id: 3,
+        name: "Nipun Lakmal",
+        username: "nipun200",
+        date: "Mon 14 Sep",
+        checkIn: "09:34 AM",
+        checkOut: "-",
+        totalHours: "13.3 h",
+        status: "active",
+        role: "User",
+        amount: "£33.00",
+        hourlyRating: "£08.50",
+        avatar: "NL"
+    },
+    {
+        id: 4,
+        name: "Nipun Lakmal",
+        username: "mali201",
+        date: "Mon 14 Sep",
+        checkIn: "-",
+        checkOut: "-",
+        totalHours: "15.3 h",
+        status: "pending",
+        role: "User",
+        amount: "£13.00",
+        hourlyRating: "£07.50",
+        avatar: "NL"
+    },
+    {
+        id: 5,
+        name: "Malinga Darshana",
+        username: "mali201",
+        date: "Mon 13 Sep",
+        checkIn: "09:34 AM",
+        checkOut: "-",
+        totalHours: "17.3 h",
+        status: "active",
+        role: "Admin",
+        amount: "£20.50",
+        hourlyRating: "£08.50",
+        avatar: "MD"
+    },
+    {
+        id: 6,
+        name: "Alex Jay",
+        username: "alex#21",
+        date: "Mon 13 Sep",
+        checkIn: "-",
+        checkOut: "-",
+        totalHours: "27.3 h",
+        status: "inactive",
+        role: "User",
+        amount: "£10.50",
+        hourlyRating: "£07.90",
+        avatar: "AJ"
+    },
+    {
+        id: 7,
+        name: "Nipun Lakmal",
+        username: "nipun200",
+        date: "Mon 14 Sep",
+        checkIn: "09:34 AM",
+        checkOut: "-",
+        totalHours: "13.3 h",
+        status: "active",
+        role: "User",
+        amount: "£33.00",
+        hourlyRating: "£08.50",
+        avatar: "NL"
+    },
+    {
+        id: 8,
+        name: "Nipun Lakmal",
+        username: "mali201",
+        date: "Mon 14 Sep",
+        checkIn: "-",
+        checkOut: "-",
+        totalHours: "15.3 h",
+        status: "pending",
+        role: "User",
+        amount: "£13.00",
+        hourlyRating: "£07.50",
+        avatar: "NL"
+    },
+    {
+        id: 9,
+        name: "Malinga Darshana",
+        username: "mali201",
+        date: "Mon 13 Sep",
+        checkIn: "09:34 AM",
+        checkOut: "-",
+        totalHours: "17.3 h",
+        status: "active",
+        role: "Admin",
+        amount: "£20.50",
+        hourlyRating: "£08.50",
+        avatar: "MD"
+    },
+    {
+        id: 10,
+        name: "Alex Jay",
+        username: "alex#21",
+        date: "Mon 13 Sep",
+        checkIn: "-",
+        checkOut: "-",
+        totalHours: "27.3 h",
+        status: "inactive",
+        role: "User",
+        amount: "£10.50",
+        hourlyRating: "£07.90",
+        avatar: "AJ"
+    }
+];
+
+// Pagination and filtering variables
+let currentPage = 1;
+let itemsPerPage = 10;
+let filteredData = [...userData];
+let filters = {
+    search: '',
+    role: '',
+    status: '',
+    date: ''
+};
+
 // Calendar events data
 const calendarEvents = {
     '2025-09-01': [{ name: 'Tim David', type: 'tim-david' }],
@@ -19,10 +174,151 @@ const calendarEvents = {
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
     initializeNavigation();
-    generateCalendar();
-    initializeStats();
+    initializeDataTable();
     addEventListeners();
+    
+    // Only initialize calendar if on main page
+    if (document.getElementById('calendarDays')) {
+        generateCalendar();
+        initializeStats();
+    }
 });
+
+// Data table initialization
+function initializeDataTable() {
+    if (!document.getElementById('tableBody')) return;
+    
+    renderTable();
+    updatePagination();
+}
+
+// Render table with current data
+function renderTable() {
+    const tableBody = document.getElementById('tableBody');
+    if (!tableBody) return;
+    
+    tableBody.innerHTML = '';
+    
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const pageData = filteredData.slice(startIndex, endIndex);
+    
+    pageData.forEach(user => {
+        const row = createTableRow(user);
+        tableBody.appendChild(row);
+    });
+}
+
+// Create table row
+function createTableRow(user) {
+    const row = document.createElement('tr');
+    
+    row.innerHTML = `
+        <td>
+            <div class="user-profile">
+                <div class="user-avatar">
+                    <span>${user.avatar}</span>
+                </div>
+                <span class="user-name">${user.name}</span>
+            </div>
+        </td>
+        <td>${user.username}</td>
+        <td>${user.date}</td>
+        <td>
+            <span class="time-display ${user.checkIn !== '-' ? 'has-time' : ''}">${user.checkIn}</span>
+        </td>
+        <td>
+            <span class="time-display ${user.checkOut !== '-' ? 'has-time' : ''}">${user.checkOut}</span>
+        </td>
+        <td>
+            <span class="hours-display">${user.totalHours}</span>
+        </td>
+        <td>
+            <span class="status-badge ${user.status}">${user.status}</span>
+        </td>
+        <td>
+            <span class="role-display">${user.role}</span>
+        </td>
+        <td>
+            <span class="amount-display">${user.amount}</span>
+        </td>
+        <td>
+            <span class="rating-display">${user.hourlyRating}</span>
+        </td>
+        <td>
+            <div class="action-buttons">
+                <button class="action-btn view-btn" title="View Details">
+                    <img src="../assets/view details.png" alt="View Details" class="action-icon">
+                </button>
+                <button class="action-btn chart-btn" title="View Chart">
+                    <i class="fas fa-chart-line"></i>
+                </button>
+                <button class="action-btn location-btn" title="View Location">
+                    <img src="../assets/map-pin-line.svg" alt="View Location" class="action-icon">
+                </button>
+                <button class="action-btn message-btn" title="Send Message">
+                    <i class="far fa-comment"></i>
+                </button>
+                <button class="action-btn edit-btn" title="Edit">
+                    <i class="fas fa-pencil-alt"></i>
+                </button>
+                <button class="action-btn delete-btn" title="Delete" onclick="deleteUser(${user.id})">
+                    <i class="far fa-trash-alt"></i>
+                </button>
+            </div>
+        </td>
+    `;
+    
+    return row;
+}
+
+// Apply filters
+function applyFilters() {
+    filteredData = userData.filter(user => {
+        const matchesSearch = user.name.toLowerCase().includes(filters.search.toLowerCase()) ||
+                            user.username.toLowerCase().includes(filters.search.toLowerCase());
+        const matchesRole = !filters.role || user.role.toLowerCase() === filters.role.toLowerCase();
+        const matchesStatus = !filters.status || user.status.toLowerCase() === filters.status.toLowerCase();
+        const matchesDate = !filters.date || user.date.includes(filters.date);
+        
+        return matchesSearch && matchesRole && matchesStatus && matchesDate;
+    });
+    
+    currentPage = 1; // Reset to first page
+    renderTable();
+    updatePagination();
+}
+
+// Update pagination
+function updatePagination() {
+    const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+    const pageInfo = document.querySelector('.page-info');
+    const prevBtn = document.querySelector('.pagination-btn:first-child');
+    const nextBtn = document.querySelector('.pagination-btn:last-child');
+    
+    if (pageInfo) {
+        pageInfo.textContent = `${currentPage} of ${totalPages} pages`;
+    }
+    
+    if (prevBtn) {
+        prevBtn.disabled = currentPage === 1;
+    }
+    
+    if (nextBtn) {
+        nextBtn.disabled = currentPage === totalPages || totalPages === 0;
+    }
+}
+
+// Delete user function
+function deleteUser(userId) {
+    if (confirm('Are you sure you want to delete this user?')) {
+        const index = userData.findIndex(user => user.id === userId);
+        if (index > -1) {
+            userData.splice(index, 1);
+            applyFilters(); // Refresh the table
+        }
+    }
+}
 
 // Navigation functionality
 function initializeNavigation() {
@@ -31,19 +327,24 @@ function initializeNavigation() {
     const mainContent = document.querySelector('.main-content');
     const closeBtn = document.getElementById('closeBtn');
 
-    hamburgerMenu.addEventListener('click', function() {
-        sidebar.classList.toggle('open');
-        mainContent.classList.toggle('sidebar-open');
-    });
+    if (hamburgerMenu && sidebar && mainContent) {
+        hamburgerMenu.addEventListener('click', function() {
+            sidebar.classList.toggle('open');
+            mainContent.classList.toggle('sidebar-open');
+        });
+    }
 
-    closeBtn.addEventListener('click', function() {
-        sidebar.classList.remove('open');
-        mainContent.classList.remove('sidebar-open');
-    });
+    if (closeBtn && sidebar && mainContent) {
+        closeBtn.addEventListener('click', function() {
+            sidebar.classList.remove('open');
+            mainContent.classList.remove('sidebar-open');
+        });
+    }
 
     // Close sidebar when clicking outside
     document.addEventListener('click', function(event) {
-        if (!sidebar.contains(event.target) && 
+        if (sidebar && hamburgerMenu && 
+            !sidebar.contains(event.target) && 
             !hamburgerMenu.contains(event.target) && 
             sidebar.classList.contains('open')) {
             sidebar.classList.remove('open');
@@ -62,16 +363,273 @@ function initializeNavigation() {
     });
 }
 
-// Calendar generation
+// Event listeners for data table page
+function addEventListeners() {
+    // Search filter
+    const searchInput = document.querySelector('.filter-search-input');
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            filters.search = this.value;
+            applyFilters();
+        });
+    }
+    
+    // Role filter
+    const roleSelect = document.querySelector('.filter-dropdown:nth-child(1) .filter-select');
+    if (roleSelect) {
+        roleSelect.addEventListener('change', function() {
+            filters.role = this.value;
+            applyFilters();
+        });
+    }
+    
+    // Status filter
+    const statusSelect = document.querySelector('.filter-dropdown:nth-child(2) .filter-select');
+    if (statusSelect) {
+        statusSelect.addEventListener('change', function() {
+            filters.status = this.value;
+            applyFilters();
+        });
+    }
+    
+    // Date filter
+    const dateSelect = document.querySelector('.filter-dropdown:nth-child(3) .filter-select');
+    if (dateSelect) {
+        dateSelect.addEventListener('change', function() {
+            filters.date = this.value;
+            applyFilters();
+        });
+    }
+    
+    // Per page select
+    const perPageSelect = document.querySelector('.per-page-select');
+    if (perPageSelect) {
+        perPageSelect.addEventListener('change', function() {
+            itemsPerPage = parseInt(this.value);
+            currentPage = 1;
+            renderTable();
+            updatePagination();
+        });
+    }
+    
+    // Pagination buttons
+    const prevBtn = document.querySelector('.pagination-btn:first-child');
+    const nextBtn = document.querySelector('.pagination-btn:last-child');
+    
+    if (prevBtn) {
+        prevBtn.addEventListener('click', function() {
+            if (currentPage > 1) {
+                currentPage--;
+                renderTable();
+                updatePagination();
+            }
+        });
+    }
+    
+    if (nextBtn) {
+        nextBtn.addEventListener('click', function() {
+            const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderTable();
+                updatePagination();
+            }
+        });
+    }
+    
+    // Action buttons in filters
+    const notificationBtn = document.querySelector('.notification-btn');
+    if (notificationBtn) {
+        notificationBtn.addEventListener('click', function() {
+            alert('Notifications feature coming soon!');
+        });
+    }
+    
+    const exportBtn = document.querySelector('.export-btn');
+    if (exportBtn) {
+        exportBtn.addEventListener('click', function() {
+            exportTableData();
+        });
+    }
+    
+    const addUserBtn = document.querySelector('.add-user-btn');
+    if (addUserBtn) {
+        addUserBtn.addEventListener('click', function() {
+            showAddUserModal();
+        });
+    }
+
+    // Calendar-specific event listeners (only if calendar exists)
+    if (document.querySelector('.view-btn')) {
+        const viewBtns = document.querySelectorAll('.view-btn:not(.action-btn)');
+        viewBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                viewBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    }
+
+    // Search functionality for navbar
+    const navSearchInput = document.querySelector('.search-input');
+    if (navSearchInput) {
+        navSearchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            console.log('Navbar searching for:', searchTerm);
+        });
+    }
+}
+
+// Export table data
+function exportTableData() {
+    const csvContent = "data:text/csv;charset=utf-8," 
+        + "Name,Username,Date,Check-in,Check-out,Total Hours,Status,Role,Amount,Hourly Rating\n"
+        + filteredData.map(user => 
+            `"${user.name}","${user.username}","${user.date}","${user.checkIn}","${user.checkOut}","${user.totalHours}","${user.status}","${user.role}","${user.amount}","${user.hourlyRating}"`
+        ).join("\n");
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "user_data.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+// Show add user modal
+function showAddUserModal() {
+    const modalOverlay = document.createElement('div');
+    modalOverlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+    `;
+
+    const modalContent = document.createElement('div');
+    modalContent.style.cssText = `
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        max-width: 500px;
+        width: 90%;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        max-height: 80vh;
+        overflow-y: auto;
+    `;
+
+    modalContent.innerHTML = `
+        <h3 style="margin-bottom: 1.5rem; color: #111827; font-size: 1.25rem;">Add New User</h3>
+        <form id="addUserForm">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; color: #374151; font-weight: 500;">Name</label>
+                    <input type="text" id="userName" required style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px; font-size: 0.9rem;">
+                </div>
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; color: #374151; font-weight: 500;">Username</label>
+                    <input type="text" id="userUsername" required style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px; font-size: 0.9rem;">
+                </div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; color: #374151; font-weight: 500;">Role</label>
+                    <select id="userRole" required style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px; font-size: 0.9rem;">
+                        <option value="">Select Role</option>
+                        <option value="Admin">Admin</option>
+                        <option value="User">User</option>
+                    </select>
+                </div>
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; color: #374151; font-weight: 500;">Status</label>
+                    <select id="userStatus" required style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px; font-size: 0.9rem;">
+                        <option value="">Select Status</option>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                        <option value="pending">Pending</option>
+                    </select>
+                </div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; color: #374151; font-weight: 500;">Amount</label>
+                    <input type="text" id="userAmount" placeholder="£0.00" required style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px; font-size: 0.9rem;">
+                </div>
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; color: #374151; font-weight: 500;">Hourly Rating</label>
+                    <input type="text" id="userHourlyRating" placeholder="£0.00" required style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px; font-size: 0.9rem;">
+                </div>
+            </div>
+            <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1.5rem;">
+                <button type="button" id="cancelUserBtn" style="padding: 0.75rem 1.5rem; border: 1px solid #d1d5db; background: white; color: #374151; border-radius: 6px; cursor: pointer;">Cancel</button>
+                <button type="submit" style="padding: 0.75rem 1.5rem; border: none; background: #335ae6; color: white; border-radius: 6px; cursor: pointer;">Add User</button>
+            </div>
+        </form>
+    `;
+
+    modalOverlay.appendChild(modalContent);
+    document.body.appendChild(modalOverlay);
+
+    // Event listeners for modal
+    document.getElementById('cancelUserBtn').addEventListener('click', function() {
+        document.body.removeChild(modalOverlay);
+    });
+
+    modalOverlay.addEventListener('click', function(e) {
+        if (e.target === modalOverlay) {
+            document.body.removeChild(modalOverlay);
+        }
+    });
+
+    document.getElementById('addUserForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const newUser = {
+            id: userData.length + 1,
+            name: document.getElementById('userName').value,
+            username: document.getElementById('userUsername').value,
+            date: "Mon " + new Date().getDate() + " Sep",
+            checkIn: "-",
+            checkOut: "-",
+            totalHours: "0.0 h",
+            status: document.getElementById('userStatus').value,
+            role: document.getElementById('userRole').value,
+            amount: document.getElementById('userAmount').value,
+            hourlyRating: document.getElementById('userHourlyRating').value,
+            avatar: document.getElementById('userName').value.split(' ').map(n => n[0]).join('').toUpperCase()
+        };
+        
+        userData.push(newUser);
+        applyFilters(); // Refresh the table
+        document.body.removeChild(modalOverlay);
+    });
+
+    // Focus on the first input
+    document.getElementById('userName').focus();
+}
+
+// Calendar generation (for main dashboard)
 function generateCalendar() {
     const calendarDays = document.getElementById('calendarDays');
+    if (!calendarDays) return;
+    
     const monthNames = [
         'January', 'February', 'March', 'April', 'May', 'June',
         'July', 'August', 'September', 'October', 'November', 'December'
     ];
 
     // Update month display
-    document.querySelector('.current-month').textContent = `${monthNames[currentMonth]} ${currentYear}`;
+    const currentMonthElement = document.querySelector('.current-month');
+    if (currentMonthElement) {
+        currentMonthElement.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+    }
 
     // Clear previous calendar
     calendarDays.innerHTML = '';
@@ -151,235 +709,25 @@ function animateCounter(element, finalValue) {
     }, 50);
 }
 
-// Event listeners
-function addEventListeners() {
-    // View options for calendar
-    const viewBtns = document.querySelectorAll('.view-btn');
-    viewBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            viewBtns.forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-        });
-    });
-
-    // Calendar navigation (if you want to add month navigation)
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'ArrowLeft') {
-            navigateCalendar(-1);
-        } else if (e.key === 'ArrowRight') {
-            navigateCalendar(1);
-        }
-    });
-
-    // Add Event button functionality
-    const addEventBtn = document.querySelector('.add-event-btn');
-    addEventBtn.addEventListener('click', function() {
-        showAddEventModal();
-    });
-
-    // Close map functionality
-    const closeMapBtn = document.querySelector('.close-map-btn');
-    closeMapBtn.addEventListener('click', function() {
-        const mapSection = document.querySelector('.map-section');
-        mapSection.style.display = 'none';
-    });
-
-    // Sort dropdown for alerts
-    const sortDropdown = document.querySelector('.sort-dropdown');
-    sortDropdown.addEventListener('click', function() {
-        // Add sorting functionality here
-        console.log('Sort alerts');
-    });
-
-    // Make calendar days clickable
-    document.addEventListener('click', function(e) {
-        if (e.target.closest('.calendar-day')) {
-            const dayElement = e.target.closest('.calendar-day');
-            const dayNumber = dayElement.querySelector('.day-number').textContent;
-            console.log(`Clicked on day ${dayNumber}`);
-            // Add day click functionality here
-        }
-    });
-
-    // Search functionality
-    const searchInput = document.querySelector('.search-input');
-    searchInput.addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase();
-        // Add search functionality here
-        console.log('Searching for:', searchTerm);
-    });
-}
-
-// Calendar navigation
-function navigateCalendar(direction) {
-    currentMonth += direction;
-    
-    if (currentMonth > 11) {
-        currentMonth = 0;
-        currentYear++;
-    } else if (currentMonth < 0) {
-        currentMonth = 11;
-        currentYear--;
-    }
-    
-    generateCalendar();
-}
-
-// Modal for adding events
-function showAddEventModal() {
-    // Create modal overlay
-    const modalOverlay = document.createElement('div');
-    modalOverlay.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 10000;
-    `;
-
-    // Create modal content
-    const modalContent = document.createElement('div');
-    modalContent.style.cssText = `
-        background: white;
-        border-radius: 12px;
-        padding: 2rem;
-        max-width: 400px;
-        width: 90%;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-    `;
-
-    modalContent.innerHTML = `
-        <h3 style="margin-bottom: 1rem; color: #111827;">Add New Event</h3>
-        <form id="addEventForm">
-            <div style="margin-bottom: 1rem;">
-                <label style="display: block; margin-bottom: 0.5rem; color: #374151; font-weight: 500;">Event Name</label>
-                <input type="text" id="eventName" required style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px; font-size: 0.9rem;">
-            </div>
-            <div style="margin-bottom: 1rem;">
-                <label style="display: block; margin-bottom: 0.5rem; color: #374151; font-weight: 500;">Date</label>
-                <input type="date" id="eventDate" required style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px; font-size: 0.9rem;">
-            </div>
-            <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1.5rem;">
-                <button type="button" id="cancelBtn" style="padding: 0.75rem 1.5rem; border: 1px solid #d1d5db; background: white; color: #374151; border-radius: 6px; cursor: pointer;">Cancel</button>
-                <button type="submit" style="padding: 0.75rem 1.5rem; border: none; background: #4f46e5; color: white; border-radius: 6px; cursor: pointer;">Add Event</button>
-            </div>
-        </form>
-    `;
-
-    modalOverlay.appendChild(modalContent);
-    document.body.appendChild(modalOverlay);
-
-    // Event listeners for modal
-    document.getElementById('cancelBtn').addEventListener('click', function() {
-        document.body.removeChild(modalOverlay);
-    });
-
-    modalOverlay.addEventListener('click', function(e) {
-        if (e.target === modalOverlay) {
-            document.body.removeChild(modalOverlay);
-        }
-    });
-
-    document.getElementById('addEventForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const eventName = document.getElementById('eventName').value;
-        const eventDate = document.getElementById('eventDate').value;
-        
-        // Add event to calendar
-        if (!calendarEvents[eventDate]) {
-            calendarEvents[eventDate] = [];
-        }
-        calendarEvents[eventDate].push({
-            name: eventName,
-            type: 'custom-event'
-        });
-        
-        generateCalendar();
-        document.body.removeChild(modalOverlay);
-    });
-
-    // Focus on the first input
-    document.getElementById('eventName').focus();
-}
-
-// Update real-time data (simulate)
-function updateRealTimeData() {
-    // Simulate random updates to stats
-    const stats = [
-        { element: document.querySelectorAll('.stat-number')[0], baseValue: 5 },
-        { element: document.querySelectorAll('.stat-number')[1], baseValue: 6 },
-        { element: document.querySelectorAll('.stat-number')[2], baseValue: 2 }
-    ];
-
-    stats.forEach(stat => {
-        if (Math.random() > 0.8) { // 20% chance to update
-            const variation = Math.floor(Math.random() * 3) - 1; // -1, 0, or 1
-            const newValue = Math.max(0, stat.baseValue + variation);
-            stat.element.textContent = String(newValue).padStart(2, '0');
-        }
-    });
-}
-
-// Simulate real-time updates
-setInterval(updateRealTimeData, 30000); // Update every 30 seconds
-
-// Add smooth scrolling for better UX
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    });
-});
-
 // Handle window resize
 window.addEventListener('resize', function() {
-    // Adjust layout if needed
     if (window.innerWidth <= 768) {
         const sidebar = document.getElementById('sidebar');
         const mainContent = document.querySelector('.main-content');
-        sidebar.classList.remove('open');
-        mainContent.classList.remove('sidebar-open');
+        if (sidebar && mainContent) {
+            sidebar.classList.remove('open');
+            mainContent.classList.remove('sidebar-open');
+        }
     }
-});
-
-// Add loading animation for initial load
-window.addEventListener('load', function() {
-    document.body.style.opacity = '0';
-    document.body.style.transition = 'opacity 0.3s ease-in';
-    
-    setTimeout(() => {
-        document.body.style.opacity = '1';
-    }, 100);
-    
-    // Add fade-in animation to main sections
-    const sections = document.querySelectorAll('.stat-card, .calendar-section, .widget, .map-section');
-    sections.forEach((section, index) => {
-        section.style.opacity = '0';
-        section.style.transform = 'translateY(20px)';
-        section.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-        
-        setTimeout(() => {
-            section.style.opacity = '1';
-            section.style.transform = 'translateY(0)';
-        }, 200 + (index * 100));
-    });
 });
 
 // Export functions for potential use
 window.starParkingApp = {
-    navigateCalendar,
-    generateCalendar,
-    showAddEventModal,
-    updateRealTimeData
+    userData,
+    filteredData,
+    applyFilters,
+    renderTable,
+    deleteUser,
+    exportTableData,
+    showAddUserModal
 };

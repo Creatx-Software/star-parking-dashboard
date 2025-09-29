@@ -19,25 +19,101 @@
 
     <!-- Main Content -->
     <main class="main-content">
-        <!-- Dashboard Header -->
-        <div class="dashboard-header">
-            <h1>Home2 Dashboard</h1>
+        <!-- Filters Row -->
+        <div class="filters-container">
+            <div class="search-filter">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search" class="filter-search-input">
+            </div>
+            <div class="dropdown-filters">
+                <div class="filter-dropdown">
+                    <i class="fas fa-user"></i>
+                    <select class="filter-select">
+                        <option value="">Role</option>
+                        <option value="Admin">Admin</option>
+                        <option value="User">User</option>
+                    </select>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="filter-dropdown">
+                    <img src="../assets/Medal .png" alt="Status" class="filter-icon">
+                    <select class="filter-select">
+                        <option value="">Status</option>
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                        <option value="Pending">Pending</option>
+                    </select>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="filter-dropdown">
+                    <i class="far fa-calendar"></i>
+                    <select class="filter-select">
+                        <option value="">Date</option>
+                        <option value="today">Today</option>
+                        <option value="yesterday">Yesterday</option>
+                        <option value="this-week">This Week</option>
+                    </select>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+            <div class="filter-actions">
+                <button class="notification-btn">
+                    <i class="fas fa-bell"></i>
+                </button>
+                <button class="export-btn">
+                    <i class="fas fa-download"></i>
+                    Export
+                </button>
+                <button class="add-user-btn">
+                    <i class="fas fa-plus"></i>
+                    Add User
+                </button>
+            </div>
         </div>
 
-        <!-- Page Content -->
-        <div class="page-content">
-            <div class="content-card">
-                <h2>Welcome to Home2</h2>
-                <p>This is the Home2 page. Add your specific content here.</p>
-                
-                <!-- Example content structure -->
-                <div class="stats-container">
-                    <div class="stat-card">
-                        <div class="stat-content">
-                            <div class="stat-label">Sample Metric</div>
-                            <div class="stat-number">100</div>
-                        </div>
-                    </div>
+        <!-- Data Table -->
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>User Name</th>
+                        <th>Date</th>
+                        <th>Check - in</th>
+                        <th>Check - Out</th>
+                        <th>Total hours</th>
+                        <th>Status</th>
+                        <th>Role</th>
+                        <th>Amount</th>
+                        <th>Hourly Rating</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- Table data will be populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination-container">
+            <div class="pagination-info">
+                <select class="per-page-select">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                </select>
+                <span>per page</span>
+            </div>
+            <div class="pagination-controls">
+                <span class="page-info">1 of 1 pages</span>
+                <div class="pagination-buttons">
+                    <button class="pagination-btn" disabled>
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="pagination-btn" disabled>
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
                 </div>
             </div>
         </div>
