@@ -182,7 +182,419 @@ document.addEventListener('DOMContentLoaded', function() {
         generateCalendar();
         initializeStats();
     }
+    
+    // Initialize driver profile page
+    if (document.querySelector('.driver-profile-content')) {
+        initializeDriverProfile();
+    }
 });
+
+// Driver Profile specific initialization
+function initializeDriverProfile() {
+    initializeProfileCalendar();
+    initializeActionButtons();
+    initializeAnalyticsCards();
+    initializeActivityButtons();
+}
+
+// Profile Calendar initialization
+function initializeProfileCalendar() {
+    const calendarDays = document.getElementById('calendarDays');
+    if (!calendarDays) return;
+    
+    let profileCurrentMonth = 2; // March (0-indexed)
+    let profileCurrentYear = 2025;
+    
+    // Highlighted dates for the profile calendar (March 2025)
+    const highlightedDates = [13, 20, 24, 28, 31];
+    
+    function generateProfileCalendar() {
+        const monthNames = [
+            'January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'
+        ];
+
+        // Update month display
+        const currentMonthElement = document.getElementById('currentMonthYear');
+        if (currentMonthElement) {
+            currentMonthElement.textContent = `${monthNames[profileCurrentMonth]} ${profileCurrentYear}`;
+        }
+
+        // Clear previous calendar
+        calendarDays.innerHTML = '';
+
+        // Get first day of the month and number of days
+        const firstDay = new Date(profileCurrentYear, profileCurrentMonth, 1);
+        const lastDay = new Date(profileCurrentYear, profileCurrentMonth + 1, 0);
+        const daysInMonth = lastDay.getDate();
+        const startingDayOfWeek = firstDay.getDay();
+
+        // Add empty cells for days before the first day of the month
+        for (let i = 0; i < startingDayOfWeek; i++) {
+            const prevMonthDay = new Date(profileCurrentYear, profileCurrentMonth, -startingDayOfWeek + i + 1);
+            const dayElement = createProfileDayElement(prevMonthDay.getDate(), true);
+            calendarDays.appendChild(dayElement);
+        }
+
+        // Add days of the current month
+        for (let day = 1; day <= daysInMonth; day++) {
+            const isHighlighted = profileCurrentMonth === 2 && profileCurrentYear === 2025 && highlightedDates.includes(day);
+            const isToday = isCurrentDate(profileCurrentYear, profileCurrentMonth, day);
+            const dayElement = createProfileDayElement(day, false, isHighlighted, isToday);
+            calendarDays.appendChild(dayElement);
+        }
+
+        // Fill remaining cells
+        const totalCells = calendarDays.children.length;
+        const remainingCells = 42 - totalCells; // 6 rows × 7 days
+        for (let i = 1; i <= remainingCells; i++) {
+            const dayElement = createProfileDayElement(i, true);
+            calendarDays.appendChild(dayElement);
+        }
+    }
+
+    function createProfileDayElement(day, otherMonth = false, isHighlighted = false, isToday = false) {
+        const dayElement = document.createElement('div');
+        let className = 'calendar-day';
+        
+        if (otherMonth) className += ' other-month';
+        if (isHighlighted) className += ' highlighted';
+        if (isToday) className += ' today';
+        
+        dayElement.className = className;
+        dayElement.textContent = day;
+        
+        dayElement.addEventListener('click', function() {
+            if (!otherMonth) {
+                // Remove active class from all days
+                const allDays = calendarDays.querySelectorAll('.calendar-day:not(.other-month)');
+                allDays.forEach(d => d.classList.remove('selected'));
+                
+                // Add selected class to clicked day
+                this.classList.add('selected');
+                
+                console.log(`Selected date: ${profileCurrentYear}-${profileCurrentMonth + 1}-${day}`);
+            }
+        });
+
+        return dayElement;
+    }
+
+    function isCurrentDate(year, month, day) {
+        const today = new Date();
+        return today.getFullYear() === year && 
+               today.getMonth() === month && 
+               today.getDate() === day;
+    }
+
+    // Navigation buttons
+    const prevBtn = document.getElementById('prevMonth');
+    const nextBtn = document.getElementById('nextMonth');
+
+    if (prevBtn) {
+        prevBtn.addEventListener('click', function() {
+            profileCurrentMonth--;
+            if (profileCurrentMonth < 0) {
+                profileCurrentMonth = 11;
+                profileCurrentYear--;
+            }
+            generateProfileCalendar();
+        });
+    }
+
+    if (nextBtn) {
+        nextBtn.addEventListener('click', function() {
+            profileCurrentMonth++;
+            if (profileCurrentMonth > 11) {
+                profileCurrentMonth = 0;
+                profileCurrentYear++;
+            }
+            generateProfileCalendar();
+        });
+    }
+
+    // Generate initial calendar
+    generateProfileCalendar();
+}
+
+// Action buttons functionality
+function initializeActionButtons() {
+    const actionButtons = document.querySelectorAll('.action-button');
+    
+    actionButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Remove active class from all buttons
+            actionButtons.forEach(btn => btn.classList.remove('active-btn'));
+            
+            // Add active class to clicked button (except for the amount button)
+            if (!this.classList.contains('amount-btn')) {
+                this.classList.add('active-btn');
+            }
+            
+            const buttonText = this.textContent.trim();
+            console.log(`${buttonText} button clicked`);
+            
+            // You can add specific functionality for each button here
+            switch(buttonText) {
+                case 'Activities':
+                    // Handle activities view
+                    break;
+                case 'Analysis':
+                    // Handle analysis view
+                    break;
+                case '£ 500':
+                    // Handle amount/budget view
+                    break;
+                case 'History':
+                    // Handle history view
+                    break;
+            }
+        });
+    });
+}
+
+// Analytics cards animation
+function initializeAnalyticsCards() {
+    const progressBars = document.querySelectorAll('.progress-fill');
+    
+    // Animate progress bars on load
+    setTimeout(() => {
+        progressBars.forEach(bar => {
+            const width = bar.style.width;
+            bar.style.width = '0%';
+            bar.style.transition = 'width 1s ease-in-out';
+            
+            setTimeout(() => {
+                bar.style.width = width;
+            }, 200);
+        });
+    }, 500);
+
+    // Analytics cards without hover effects
+    const analyticsCards = document.querySelectorAll('.analytics-card');
+    // Removed hover effects as requested
+}
+
+// Activity buttons functionality
+function initializeActivityButtons() {
+    const eventButtons = document.querySelectorAll('.event-btn');
+    
+    eventButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const isAccept = this.classList.contains('accept');
+            const eventItem = this.closest('.event-item');
+            const date = eventItem.querySelector('.event-date').textContent;
+            
+            if (isAccept) {
+                alert(`Event for ${date} has been accepted!`);
+                this.style.background = '#059669';
+                this.textContent = 'ACCEPTED';
+            } else {
+                alert(`Event for ${date} has been rejected!`);
+                this.style.background = '#dc2626';
+                this.style.color = 'white';
+                this.textContent = 'REJECTED';
+            }
+            
+            // Disable both buttons in this event item
+            const allButtons = eventItem.querySelectorAll('.event-btn');
+            allButtons.forEach(btn => {
+                btn.disabled = true;
+                btn.style.opacity = '0.7';
+                btn.style.cursor = 'not-allowed';
+            });
+        });
+    });
+    
+    // Also handle legacy activity buttons if they exist
+    const activityButtons = document.querySelectorAll('.activity-btn');
+    activityButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const isAccept = this.classList.contains('accept');
+            const activityItem = this.closest('.activity-item');
+            const date = activityItem.querySelector('.activity-date').textContent;
+            
+            if (isAccept) {
+                alert(`Activity for ${date} has been accepted!`);
+                this.style.background = '#059669';
+                this.textContent = 'ACCEPTED';
+            } else {
+                alert(`Activity for ${date} has been rejected!`);
+                this.style.background = '#dc2626';
+                this.textContent = 'REJECTED';
+            }
+            
+            // Disable both buttons in this activity item
+            const allButtons = activityItem.querySelectorAll('.activity-btn');
+            allButtons.forEach(btn => {
+                btn.disabled = true;
+                btn.style.opacity = '0.7';
+                btn.style.cursor = 'not-allowed';
+            });
+        });
+    });
+    
+    // Export table button
+    const exportTableBtn = document.querySelector('.export-table-btn');
+    if (exportTableBtn) {
+        exportTableBtn.addEventListener('click', function() {
+            // Simple export functionality for the profile table
+            const tableData = [
+                ['Date', 'Check - In', 'Check - Out'],
+                ['Mon 13 Sep', '09:34 AM', '17:34 AM'],
+                ['Mon 14 Sep', '09:24 AM', '16:34 AM'],
+                ['Mon 15 Sep', '09:14 AM', '16:34 AM'],
+                ['Mon 16 Sep', '09:35 AM', '17:39 AM'],
+                ['Mon 17 Sep', '09:32 AM', '17:44 AM']
+            ];
+            
+            const csvContent = tableData.map(row => row.join(',')).join('\n');
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'check-in-out-records.csv';
+            link.click();
+            window.URL.revokeObjectURL(url);
+        });
+    }
+    
+    // Edit profile button
+    const editProfileBtn = document.querySelector('.edit-profile-btn');
+    if (editProfileBtn) {
+        editProfileBtn.addEventListener('click', function() {
+            showEditProfileModal();
+        });
+    }
+}
+
+// Show edit profile modal
+function showEditProfileModal() {
+    const modalOverlay = document.createElement('div');
+    modalOverlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+    `;
+
+    const modalContent = document.createElement('div');
+    modalContent.style.cssText = `
+        background: white;
+        border-radius: 16px;
+        padding: 2rem;
+        max-width: 500px;
+        width: 90%;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        max-height: 80vh;
+        overflow-y: auto;
+    `;
+
+    modalContent.innerHTML = `
+        <h3 style="margin-bottom: 1.5rem; color: #111827; font-size: 1.25rem; font-weight: 600;">Edit Profile</h3>
+        <form id="editProfileForm">
+            <div style="margin-bottom: 1rem;">
+                <label style="display: block; margin-bottom: 0.5rem; color: #374151; font-weight: 500;">Name</label>
+                <input type="text" id="profileName" value="Malinga Dorshana" required style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 8px; font-size: 0.9rem;">
+            </div>
+            <div style="margin-bottom: 1rem;">
+                <label style="display: block; margin-bottom: 0.5rem; color: #374151; font-weight: 500;">Birth Date</label>
+                <input type="date" id="profileBirthDate" value="2003-12-12" required style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 8px; font-size: 0.9rem;">
+            </div>
+            <div style="margin-bottom: 1rem;">
+                <label style="display: block; margin-bottom: 0.5rem; color: #374151; font-weight: 500;">Balance</label>
+                <input type="text" id="profileBalance" value="£20.50" required style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 8px; font-size: 0.9rem;">
+            </div>
+            <div style="margin-bottom: 1rem;">
+                <label style="display: block; margin-bottom: 0.5rem; color: #374151; font-weight: 500;">Status</label>
+                <select id="profileStatus" required style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 8px; font-size: 0.9rem;">
+                    <option value="active" selected>Active</option>
+                    <option value="inactive">Inactive</option>
+                    <option value="pending">Pending</option>
+                </select>
+            </div>
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; margin-bottom: 0.5rem; color: #374151; font-weight: 500;">Description</label>
+                <textarea id="profileDescription" rows="4" style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 8px; font-size: 0.9rem; resize: vertical;">Lorem ipsum dolor sit amet consectetur adipiscing elit. Adipisci temporibus officia natus accusamus molestias recusandae quasi sed architecto sunt omnis aut, quibusdam porro et dolorem consequuntur, error repellat blanditiis rerum.</textarea>
+            </div>
+            <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                <button type="button" id="cancelEditBtn" style="padding: 0.75rem 1.5rem; border: 1px solid #d1d5db; background: white; color: #374151; border-radius: 8px; cursor: pointer; font-weight: 500;">Cancel</button>
+                <button type="submit" style="padding: 0.75rem 1.5rem; border: none; background: #335ae6; color: white; border-radius: 8px; cursor: pointer; font-weight: 500;">Save Changes</button>
+            </div>
+        </form>
+    `;
+
+    modalOverlay.appendChild(modalContent);
+    document.body.appendChild(modalOverlay);
+
+    // Event listeners for modal
+    document.getElementById('cancelEditBtn').addEventListener('click', function() {
+        document.body.removeChild(modalOverlay);
+    });
+
+    modalOverlay.addEventListener('click', function(e) {
+        if (e.target === modalOverlay) {
+            document.body.removeChild(modalOverlay);
+        }
+    });
+
+    document.getElementById('editProfileForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Update the profile information on the page
+        const nameElement = document.querySelector('.field-value');
+        const birthDateElement = document.querySelectorAll('.field-value')[1];
+        const balanceElement = document.querySelectorAll('.field-value')[2];
+        const statusElement = document.querySelector('.status-badge');
+        const descriptionElement = document.querySelector('.profile-description p');
+        
+        if (nameElement) nameElement.textContent = document.getElementById('profileName').value;
+        if (birthDateElement) birthDateElement.textContent = document.getElementById('profileBirthDate').value.split('-').reverse().join('.');
+        if (balanceElement) balanceElement.textContent = document.getElementById('profileBalance').value;
+        if (statusElement) {
+            const newStatus = document.getElementById('profileStatus').value;
+            statusElement.className = `status-badge ${newStatus}`;
+            statusElement.textContent = newStatus.charAt(0).toUpperCase() + newStatus.slice(1);
+        }
+        if (descriptionElement) descriptionElement.textContent = document.getElementById('profileDescription').value;
+        
+        document.body.removeChild(modalOverlay);
+        
+        // Show success message
+        const successMessage = document.createElement('div');
+        successMessage.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #10b981;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+            z-index: 10001;
+            font-weight: 500;
+        `;
+        successMessage.textContent = 'Profile updated successfully!';
+        document.body.appendChild(successMessage);
+        
+        setTimeout(() => {
+            document.body.removeChild(successMessage);
+        }, 3000);
+    });
+
+    // Focus on the first input
+    document.getElementById('profileName').focus();
+}
 
 // Data table initialization
 function initializeDataTable() {

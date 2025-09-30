@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar Layout Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background-color: #f5f7fa;
+            padding: 2rem;
+        }
+
+        /* Calendar and Activities Section - New Responsive Layout */
+        .calendar-activities-section {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+            align-items: flex-start;
+        }
+
+        /* Calendar Widget - 1/4 width */
+        .calendar-widget {
+            flex: 1;
+            min-width: 280px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .calendar-header-profile {
+            margin-bottom: 1.5rem;
+        }
+
+        .month-navigation {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            padding: 0.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            color: #6b7280;
+            transition: all 0.2s;
+        }
+
+        .nav-btn:hover {
+            background: #f3f4f6;
+            color: #111827;
+        }
+
+        .current-month {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #111827;
+            margin: 0;
+        }
+
+        .calendar-grid {
+            width: 100%;
+        }
+
+        .calendar-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0;
+            margin-bottom: 0.5rem;
+        }
+
+        .weekday {
+            padding: 0.5rem;
+            text-align: center;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #6b7280;
+        }
+
+        .calendar-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            background: #e5e7eb;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .calendar-day {
+            background: white;
+            padding: 0.75rem;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .calendar-day:hover {
+            background: #f3f4f6;
+        }
+
+        .calendar-day.other-month {
+            color: #d1d5db;
+            background: #fafafa;
+        }
+
+        .calendar-day.highlighted {
+            background: #335ae6 !important;
+            color: white;
+            font-weight: 600;
+        }
+
+        .calendar-day.today {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        /* Events List - 3/4 width */
+        .events-list {
+            flex: 3;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .event-item {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .event-item:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .event-date {
+            font-weight: 600;
+            color: #111827;
+            font-size: 1rem;
+            min-width: 140px;
+            flex-shrink: 0;
+        }
+
+        .event-actions {
+            display: flex;
+            gap: 0.75rem;
+            flex-shrink: 0;
+        }
+
+        .event-btn {
+            border: none;
+            padding: 0.5rem 1.25rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+        }
+
+        .event-btn.accept {
+            background: #10b981;
+            color: white;
+        }
+
+        .event-btn.accept:hover {
+            background: #059669;
+            transform: translateY(-1px);
+        }
+
+        .event-btn.reject {
+            background: #fecaca;
+            color: #dc2626;
+        }
+
+        .event-btn.reject:hover {
+            background: #fca5a5;
+            transform: translateY(-1px);
+        }
+
+        .event-description {
+            color: #6b7280;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            flex: 1;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .calendar-activities-section {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            
+            .calendar-widget {
+                flex: none;
+                width: 100%;
+                max-width: 400px;
+                align-self: center;
+            }
+            
+            .events-list {
+                flex: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .event-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+                padding: 1rem;
+            }
+            
+            .event-date {
+                min-width: auto;
+                width: 100%;
+            }
+            
+            .event-actions {
+                width: 100%;
+                justify-content: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1 style="margin-bottom: 2rem; color: #111827; font-size: 2rem; text-align: center;">Calendar & Events Layout Test</h1>
+    
+    <!-- Calendar and Activities Section -->
+    <div class="calendar-activities-section">
+        <!-- Calendar Widget (1/4 width) -->
+        <div class="calendar-widget">
+            <div class="calendar-header-profile">
+                <div class="month-navigation">
+                    <button class="nav-btn">
+                        ‹
+                    </button>
+                    <h3 class="current-month">March 2025</h3>
+                    <button class="nav-btn">
+                        ›
+                    </button>
+                </div>
+            </div>
+            <div class="calendar-grid">
+                <div class="calendar-weekdays">
+                    <div class="weekday">Su</div>
+                    <div class="weekday">Mo</div>
+                    <div class="weekday">Tu</div>
+                    <div class="weekday">We</div>
+                    <div class="weekday">Th</div>
+                    <div class="weekday">Fr</div>
+                    <div class="weekday">Sa</div>
+                </div>
+                <div class="calendar-days">
+                    <!-- Previous month days -->
+                    <div class="calendar-day other-month">27</div>
+                    <div class="calendar-day other-month">28</div>
+                    <!-- March 2025 days -->
+                    <div class="calendar-day">1</div>
+                    <div class="calendar-day">2</div>
+                    <div class="calendar-day">3</div>
+                    <div class="calendar-day">4</div>
+                    <div class="calendar-day">5</div>
+                    <div class="calendar-day">6</div>
+                    <div class="calendar-day">7</div>
+                    <div class="calendar-day">8</div>
+                    <div class="calendar-day">9</div>
+                    <div class="calendar-day">10</div>
+                    <div class="calendar-day">11</div>
+                    <div class="calendar-day">12</div>
+                    <div class="calendar-day highlighted">13</div>
+                    <div class="calendar-day">14</div>
+                    <div class="calendar-day">15</div>
+                    <div class="calendar-day">16</div>
+                    <div class="calendar-day">17</div>
+                    <div class="calendar-day">18</div>
+                    <div class="calendar-day">19</div>
+                    <div class="calendar-day highlighted">20</div>
+                    <div class="calendar-day">21</div>
+                    <div class="calendar-day">22</div>
+                    <div class="calendar-day">23</div>
+                    <div class="calendar-day highlighted">24</div>
+                    <div class="calendar-day">25</div>
+                    <div class="calendar-day">26</div>
+                    <div class="calendar-day">27</div>
+                    <div class="calendar-day highlighted">28</div>
+                    <div class="calendar-day">29</div>
+                    <div class="calendar-day">30</div>
+                    <div class="calendar-day highlighted">31</div>
+                    <!-- Next month days -->
+                    <div class="calendar-day other-month">1</div>
+                    <div class="calendar-day other-month">2</div>
+                    <div class="calendar-day other-month">3</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Events List (3/4 width) -->
+        <div class="events-list">
+            <div class="event-item">
+                <div class="event-date">13 March 2025</div>
+                <div class="event-actions">
+                    <button class="event-btn accept">ACCEPT</button>
+                    <button class="event-btn reject">REJECT</button>
+                </div>
+                <div class="event-description">Lorem ipsum dolor sit amet consectetur adipisci</div>
+            </div>
+            <div class="event-item">
+                <div class="event-date">20 March 2025</div>
+                <div class="event-actions">
+                    <button class="event-btn accept">ACCEPT</button>
+                    <button class="event-btn reject">REJECT</button>
+                </div>
+                <div class="event-description">Lorem ipsum dolor sit amet consectetur adipisci</div>
+            </div>
+            <div class="event-item">
+                <div class="event-date">24 March 2025</div>
+                <div class="event-actions">
+                    <button class="event-btn accept">ACCEPT</button>
+                    <button class="event-btn reject">REJECT</button>
+                </div>
+                <div class="event-description">Lorem ipsum dolor sit amet consectetur adipisci</div>
+            </div>
+            <div class="event-item">
+                <div class="event-date">28 March 2025</div>
+                <div class="event-actions">
+                    <button class="event-btn accept">ACCEPT</button>
+                    <button class="event-btn reject">REJECT</button>
+                </div>
+                <div class="event-description">Lorem ipsum dolor sit amet consectetur adipisci</div>
+            </div>
+            <div class="event-item">
+                <div class="event-date">31 March 2025</div>
+                <div class="event-actions">
+                    <button class="event-btn accept">ACCEPT</button>
+                    <button class="event-btn reject">REJECT</button>
+                </div>
+                <div class="event-description">Lorem ipsum dolor sit amet consectetur adipisci</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple event handlers for testing
+        document.querySelectorAll('.event-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const eventItem = this.closest('.event-item');
+                const date = eventItem.querySelector('.event-date').textContent;
+                const action = this.classList.contains('accept') ? 'accepted' : 'rejected';
+                
+                alert(`Event for ${date} has been ${action}!`);
+                
+                // Disable buttons
+                eventItem.querySelectorAll('.event-btn').forEach(b => {
+                    b.disabled = true;
+                    b.style.opacity = '0.6';
+                });
+            });
+        });
+
+        // Calendar day click handler
+        document.querySelectorAll('.calendar-day:not(.other-month)').forEach(day => {
+            day.addEventListener('click', function() {
+                document.querySelectorAll('.calendar-day').forEach(d => d.classList.remove('selected'));
+                this.classList.add('selected');
+                console.log('Selected date:', this.textContent);
+            });
+        });
+    </script>
+</body>
+</html>

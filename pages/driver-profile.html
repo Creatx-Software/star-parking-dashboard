@@ -19,33 +19,243 @@
 
     <!-- Main Content -->
     <main class="main-content">
-        <!-- Dashboard Header -->
-        <div class="dashboard-header">
-            <h1>Driver Profile</h1>
-        </div>
-
         <!-- Page Content -->
-        <div class="page-content">
-            <div class="content-card">
-                <h2>Driver Information</h2>
-                <p>Manage driver profile information and settings.</p>
-                
-                <!-- Profile content structure -->
-                <div class="profile-container">
-                    <div class="profile-header">
-                        <div class="profile-avatar">
-                            <i class="fas fa-user-circle"></i>
+        <div class="driver-profile-content">
+            <!-- Profile Card -->
+            <div class="profile-main-card">
+                <div class="profile-left">
+                    <div class="profile-avatar-large">
+                        <img src="../assets/profile-image.jpg" alt="Profile" onerror="this.outerHTML='<div class=\'profile-placeholder\'><i class=\'fas fa-user\'></i></div>'">
+                    </div>
+                    <div class="profile-details-left">
+                        <div class="profile-field">
+                            <span class="field-label">Name:</span>
+                            <span class="field-value">Malinga Dorshana</span>
                         </div>
-                        <div class="profile-info">
-                            <h3>Driver Name</h3>
-                            <p>Driver ID: D001</p>
+                        <div class="profile-field">
+                            <span class="field-label">Birth Date:</span>
+                            <span class="field-value">12.12.2003</span>
+                        </div>
+                        <div class="profile-field">
+                            <span class="field-label">Balance:</span>
+                            <span class="field-value">£20.50</span>
+                        </div>
+                        <div class="profile-field">
+                            <span class="field-label">State:</span>
+                            <span class="status-badge active">Active</span>
                         </div>
                     </div>
-                    
-                    <div class="profile-details">
-                        <!-- Add profile form fields here -->
-                        <p>Profile details and forms will be added here.</p>
+                </div>
+                <div class="profile-right">
+                    <div class="profile-description">
+                        <h4>Description</h4>
+                        <p>Lorem ipsum dolor sit amet consectetur adipiscing elit. Adipisci temporibus officia natus accusamus molestias recusandae quasi sed architecto sunt omnis aut, quibusdam porro et dolorem consequuntur, error repellat blanditiis rerum.</p>
+                        <!-- <div class="edit-btn-container">
+                            <button class="edit-profile-btn">Edit</button>
+                        </div> -->
                     </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons Row -->
+            <div class="action-buttons-row">
+                <button class="action-button active-btn">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Activities</span>
+                </button>
+                <button class="action-button">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Analysis</span>
+                </button>
+                <button class="action-button amount-btn">
+                    <span>£ 500</span>
+                </button>
+                <button class="action-button">
+                    <i class="fas fa-history"></i>
+                    <span>History</span>
+                </button>
+            </div>
+
+            <!-- Analytics Cards Row -->
+            <div class="analytics-cards-row">
+                <div class="analytics-card">
+                    <div class="analytics-header">
+                        <span class="analytics-label">Amount</span>
+                    </div>
+                    <div class="analytics-value">£680</div>
+                    <div class="analytics-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 32%"></div>
+                            <span class="progress-percent" style="left: 32%;">32%</span>
+                        </div>
+                        <span class="analytics-total">£2000.00</span>
+                    </div>
+                    <div class="analytics-footer">
+                        <span class="analytics-sublabel">Live Usage</span>
+                    </div>
+                </div>
+
+                <div class="analytics-card">
+                    <div class="analytics-header">
+                        <span class="analytics-label">Hours</span>
+                    </div>
+                    <div class="analytics-value">180h</div>
+                    <div class="analytics-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 68%"></div>
+                            <span class="progress-percent" style="left: 68%;">68%</span>
+                        </div>
+                        <span class="analytics-total">2400h</span>
+                    </div>
+                    <div class="analytics-footer">
+                        <span class="analytics-sublabel">Live Usage</span>
+                    </div>
+                </div>
+
+                <div class="analytics-card">
+                    <div class="analytics-header">
+                        <span class="analytics-label">Trip</span>
+                    </div>
+                    <div class="analytics-value">48</div>
+                    <div class="analytics-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 48%"></div>
+                            <span class="progress-percent" style="left: 48%;">48%</span>
+                        </div>
+                        <span class="analytics-total">100</span>
+                    </div>
+                    <div class="analytics-footer">
+                        <span class="analytics-sublabel">Live Usage</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Calendar and Activities Section -->
+            <div class="calendar-activities-section">
+                <!-- Calendar Widget (1/4 width) -->
+                <div class="calendar-widget">
+                    <div class="calendar-header-profile">
+                        <div class="month-navigation">
+                            <button class="nav-btn" id="prevMonth">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <h3 class="current-month" id="currentMonthYear">March 2025</h3>
+                            <button class="nav-btn" id="nextMonth">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="calendar-grid">
+                        <div class="calendar-weekdays">
+                            <div class="weekday">Su</div>
+                            <div class="weekday">Mo</div>
+                            <div class="weekday">Tu</div>
+                            <div class="weekday">We</div>
+                            <div class="weekday">Th</div>
+                            <div class="weekday">Fr</div>
+                            <div class="weekday">Sa</div>
+                        </div>
+                        <div class="calendar-days" id="calendarDays">
+                            <!-- Calendar days will be generated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Events List (3/4 width) -->
+                <div class="events-list">
+                    <div class="event-item">
+                        <div class="event-date">13 March 2025</div>
+                        <div class="event-actions">
+                            <button class="event-btn accept">ACCEPT</button>
+                            <button class="event-btn reject">REJECT</button>
+                        </div>
+                        <div class="event-description">Lorem ipsum dolor sit amet consectetur adipisci</div>
+                    </div>
+                    <div class="event-item">
+                        <div class="event-date">20 March 2025</div>
+                        <div class="event-actions">
+                            <button class="event-btn accept">ACCEPT</button>
+                            <button class="event-btn reject">REJECT</button>
+                        </div>
+                        <div class="event-description">Lorem ipsum dolor sit amet consectetur adipisci</div>
+                    </div>
+                    <div class="event-item">
+                        <div class="event-date">24 March 2025</div>
+                        <div class="event-actions">
+                            <button class="event-btn accept">ACCEPT</button>
+                            <button class="event-btn reject">REJECT</button>
+                        </div>
+                        <div class="event-description">Lorem ipsum dolor sit amet consectetur adipisci</div>
+                    </div>
+                    <div class="event-item">
+                        <div class="event-date">28 March 2025</div>
+                        <div class="event-actions">
+                            <button class="event-btn accept">ACCEPT</button>
+                            <button class="event-btn reject">REJECT</button>
+                        </div>
+                        <div class="event-description">Lorem ipsum dolor sit amet consectetur adipisci</div>
+                    </div>
+                    <div class="event-item">
+                        <div class="event-date">31 March 2025</div>
+                        <div class="event-actions">
+                            <button class="event-btn accept">ACCEPT</button>
+                            <button class="event-btn reject">REJECT</button>
+                        </div>
+                        <div class="event-description">Lorem ipsum dolor sit amet consectetur adipisci</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Table Section -->
+            <div class="data-table-section">
+                <div class="table-header">
+                    <div class="table-header-left">
+                        <span class="table-title">Check-in / Check-out Records</span>
+                    </div>
+                    <div class="table-header-right">
+                        <button class="export-table-btn">
+                            <i class="fas fa-download"></i>
+                            Export
+                        </button>
+                    </div>
+                </div>
+                <div class="data-table-container">
+                    <table class="profile-data-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Check - In</th>
+                                <th>Check - Out</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Mon 13 Sep</td>
+                                <td>09:34 AM</td>
+                                <td>17:34 AM</td>
+                            </tr>
+                            <tr>
+                                <td>Mon 14 Sep</td>
+                                <td>09:24 AM</td>
+                                <td>16:34 AM</td>
+                            </tr>
+                            <tr>
+                                <td>Mon 15 Sep</td>
+                                <td>09:14 AM</td>
+                                <td>16:34 AM</td>
+                            </tr>
+                            <tr>
+                                <td>Mon 16 Sep</td>
+                                <td>09:35 AM</td>
+                                <td>17:39 AM</td>
+                            </tr>
+                            <tr>
+                                <td>Mon 17 Sep</td>
+                                <td>09:32 AM</td>
+                                <td>17:44 AM</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
